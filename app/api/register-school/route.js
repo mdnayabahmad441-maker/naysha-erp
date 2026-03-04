@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export async function POST(req) {
   const data = await req.json();
 
-  const hashed = await bcrypt.hash(data.password, 10);
+  const hashedPassword = await bcrypt.hash(data.password, 10);
 
   const school = await prisma.school.create({
     data: {
@@ -17,11 +17,13 @@ export async function POST(req) {
     data: {
       name: data.adminName,
       email: data.email,
-      password: hashed,
+      password: hashedPassword,
       role: "ADMIN",
       schoolId: school.id,
     },
   });
 
-  return NextResponse.json({ success: true });
+  return NextResponse.json({
+    success: true,
+  });
 }

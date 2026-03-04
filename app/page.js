@@ -1,6 +1,25 @@
+"use client";
+
+export const dynamic = "force-dynamic";
+
 import Link from "next/link";
 
 export default function Home() {
+
+  async function subscribe(plan) {
+    const res = await fetch("/api/checkout", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ plan }),
+    });
+
+    const data = await res.json();
+
+    window.location.href = data.url;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 text-white">
 
@@ -53,7 +72,7 @@ export default function Home() {
 
           <button
             onClick={() => subscribe("basic")}
-            className="px-6 py-3 bg-cyan-500 rounded-lg"
+            className="px-6 py-3 bg-cyan-500 rounded-lg hover:bg-cyan-600 transition"
           >
             Start Basic
           </button>
@@ -76,7 +95,7 @@ export default function Home() {
 
           <button
             onClick={() => subscribe("growth")}
-            className="px-6 py-3 bg-purple-500 rounded-lg"
+            className="px-6 py-3 bg-purple-500 rounded-lg hover:bg-purple-600 transition"
           >
             Start Growth
           </button>
@@ -99,7 +118,7 @@ export default function Home() {
 
           <button
             onClick={() => subscribe("pro")}
-            className="px-6 py-3 bg-green-500 rounded-lg"
+            className="px-6 py-3 bg-green-500 rounded-lg hover:bg-green-600 transition"
           >
             Start Pro
           </button>
@@ -115,19 +134,4 @@ export default function Home() {
 
     </div>
   );
-}
-
-async function subscribe(plan) {
-
-  const res = await fetch("/api/checkout", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ plan }),
-  });
-
-  const data = await res.json();
-
-  window.location.href = data.url;
 }

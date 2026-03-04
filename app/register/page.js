@@ -44,16 +44,17 @@ export default function RegisterSchool() {
 
       <form
         onSubmit={register}
-        className="bg-white/10 p-10 rounded-xl space-y-6 w-[400px]"
+        className="bg-white/10 p-10 rounded-xl space-y-6 w-[420px]"
       >
         <h1 className="text-3xl font-bold text-center">
-          Register School
+          Create Your School
         </h1>
 
         <input
           name="schoolName"
           placeholder="School Name"
           onChange={handleChange}
+          required
           className="w-full p-3 rounded bg-white/10"
         />
 
@@ -61,13 +62,16 @@ export default function RegisterSchool() {
           name="adminName"
           placeholder="Admin Name"
           onChange={handleChange}
+          required
           className="w-full p-3 rounded bg-white/10"
         />
 
         <input
           name="email"
+          type="email"
           placeholder="Admin Email"
           onChange={handleChange}
+          required
           className="w-full p-3 rounded bg-white/10"
         />
 
@@ -76,6 +80,7 @@ export default function RegisterSchool() {
           type="password"
           placeholder="Password"
           onChange={handleChange}
+          required
           className="w-full p-3 rounded bg-white/10"
         />
 
@@ -83,6 +88,7 @@ export default function RegisterSchool() {
           Create School
         </button>
       </form>
+
     </div>
   );
 }
