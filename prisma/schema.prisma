@@ -1,0 +1,180 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+//////////////////////
+// SCHOOL
+//////////////////////
+
+model School {
+  id       Int       @id @default(autoincrement())
+  name     String
+  users    User[]
+  students Student[]
+  teachers Teacher[]
+  classes  Class[]
+}
+
+//////////////////////
+// USER
+//////////////////////
+
+model User {
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String @unique
+  password String
+  role     String @default("ADMIN")
+
+  schoolId Int
+  school   School @relation(fields: [schoolId], references: [id])
+}
+
+//////////////////////
+// CLASS
+//////////////////////
+
+model Class {
+  id      Int     @id @default(autoincrement())
+  name    String
+  section String?
+
+  schoolId Int
+  school   School @relation(fields: [schoolId], references: [id])
+
+  students Student[]
+  teacher  Teacher?
+
+  attendances Attendance[]
+
+  feeTemplates FeeTemplate[] 
+
+  createdAt DateTime @default(now())
+}
+
+//////////////////////
+// STUDENT
+//////////////////////
+
+model Student {
+  id         Int     @id @default(autoincrement())
+  name       String
+  rollNumber String?
+  phone      String?
+  email      String?
+  address    String?
+
+  studentType String @default("DayScholar") // NEW FIELD
+
+  classId  Int
+  schoolId Int
+
+  class  Class  @relation(fields: [classId], references: [id])
+  school School @relation(fields: [schoolId], references: [id])
+
+  attendance Attendance[]
+  fees       Fee[]
+}
+
+//////////////////////
+// TEACHER
+//////////////////////
+
+model Teacher {
+  id    Int     @id @default(autoincrement())
+  name  String
+  email String?
+  phone String?
+
+  schoolId Int
+  school   School @relation(fields: [schoolId], references: [id])
+
+  classId Int?   @unique
+  class   Class? @relation(fields: [classId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+//////////////////////
+// ATTENDANCE
+//////////////////////
+
+model Attendance {
+  id Int @id @default(autoincrement())
+
+  studentId Int
+  student   Student @relation(fields: [studentId], references: [id])
+
+  date   DateTime
+  status String
+
+  schoolId Int
+  class    Class? @relation(fields: [classId], references: [id])
+  classId  Int?
+}
+
+//////////////////////
+// FEES
+//////////////////////
+
+model Fee {
+  id            Int    @id @default(autoincrement())
+  invoiceNumber String @unique
+
+  studentId Int
+  student   Student @relation(fields: [studentId], references: [id])
+
+  schoolFee    Float @default(0)
+  hostelFee    Float @default(0)
+  transportFee Float @default(0)
+  miscFee      Float @default(0)
+  otherCharges Float @default(0)
+
+  totalAmount Float
+  paidAmount  Float  @default(0)
+  status      String @default("Unpaid")
+
+  month String?   // NEW FIELD (safe)
+
+  dueDate  DateTime
+  schoolId Int
+
+  createdAt DateTime @default(now())
+
+  payments Payment[]
+}
+
+//////////////////////
+// PAYMENTS
+//////////////////////
+
+model Payment {
+  id        Int      @id @default(autoincrement())
+  feeId     Int
+  amount    Int
+  schoolId  Int
+  createdAt DateTime @default(now())
+
+  fee Fee @relation(fields: [feeId], references: [id])
+}
+
+model FeeTemplate {
+  id Int @id @default(autoincrement())
+
+  classId Int
+  class   Class @relation(fields: [classId], references: [id])
+
+  studentType String
+
+  schoolFee Float @default(0)
+  transportFee Float @default(0)
+  hostelFee Float @default(0)
+  miscFee Float @default(0)
+
+  schoolId Int
+}
