@@ -4,9 +4,12 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 text-white">
 
-      {/* Header */}
+      {/* HEADER */}
+
       <header className="flex justify-between items-center p-6 max-w-6xl mx-auto">
-        <h1 className="text-2xl font-bold">Naysha ERP</h1>
+        <h1 className="text-2xl font-bold">
+          Naysha ERP
+        </h1>
 
         <Link
           href="/login"
@@ -16,7 +19,8 @@ export default function Home() {
         </Link>
       </header>
 
-      {/* Hero Section */}
+      {/* HERO */}
+
       <section className="text-center mt-20 px-6">
         <h2 className="text-5xl font-bold mb-6">
           Smart School Management System
@@ -26,52 +30,104 @@ export default function Home() {
           Manage students, teachers, fees, attendance, and reports in one
           powerful cloud platform designed for modern schools.
         </p>
-
-        <Link
-          href="/login"
-          className="px-8 py-4 text-lg rounded-xl bg-gradient-to-r from-cyan-400 to-purple-500 font-semibold"
-        >
-          Get Started
-        </Link>
       </section>
 
-      {/* Features */}
+      {/* PRICING */}
+
       <section className="mt-28 max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-10">
 
-        <div className="bg-white/10 p-8 rounded-xl">
-          <h3 className="text-xl font-semibold mb-3">
-            Student Management
+        {/* BASIC */}
+
+        <div className="bg-white/10 p-10 rounded-xl text-center">
+          <h3 className="text-2xl font-bold">
+            Basic
           </h3>
-          <p className="text-gray-300">
-            Easily manage student records, classes, and academic history.
+
+          <p className="text-4xl font-bold mt-4">
+            ₹1999
           </p>
+
+          <p className="text-gray-300 mb-6">
+            per month
+          </p>
+
+          <button
+            onClick={() => subscribe("basic")}
+            className="px-6 py-3 bg-cyan-500 rounded-lg"
+          >
+            Start Basic
+          </button>
         </div>
 
-        <div className="bg-white/10 p-8 rounded-xl">
-          <h3 className="text-xl font-semibold mb-3">
-            Fee Management
+        {/* GROWTH */}
+
+        <div className="bg-white/10 p-10 rounded-xl text-center border border-cyan-400">
+          <h3 className="text-2xl font-bold">
+            Growth
           </h3>
-          <p className="text-gray-300">
-            Track fee payments, generate receipts, and view pending dues.
+
+          <p className="text-4xl font-bold mt-4">
+            ₹3999
           </p>
+
+          <p className="text-gray-300 mb-6">
+            per month
+          </p>
+
+          <button
+            onClick={() => subscribe("growth")}
+            className="px-6 py-3 bg-purple-500 rounded-lg"
+          >
+            Start Growth
+          </button>
         </div>
 
-        <div className="bg-white/10 p-8 rounded-xl">
-          <h3 className="text-xl font-semibold mb-3">
-            Attendance Tracking
+        {/* PRO */}
+
+        <div className="bg-white/10 p-10 rounded-xl text-center">
+          <h3 className="text-2xl font-bold">
+            Pro
           </h3>
-          <p className="text-gray-300">
-            Record daily attendance and monitor student performance.
+
+          <p className="text-4xl font-bold mt-4">
+            ₹7999
           </p>
+
+          <p className="text-gray-300 mb-6">
+            per month
+          </p>
+
+          <button
+            onClick={() => subscribe("pro")}
+            className="px-6 py-3 bg-green-500 rounded-lg"
+          >
+            Start Pro
+          </button>
         </div>
 
       </section>
 
-      {/* Footer */}
+      {/* FOOTER */}
+
       <footer className="text-center mt-24 pb-10 text-gray-400">
-        © {new Date().getFullYear()} Naysha ERP. All rights reserved.
+        © {new Date().getFullYear()} Naysha ERP
       </footer>
 
     </div>
   );
+}
+
+async function subscribe(plan) {
+
+  const res = await fetch("/api/checkout", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ plan }),
+  });
+
+  const data = await res.json();
+
+  window.location.href = data.url;
 }
