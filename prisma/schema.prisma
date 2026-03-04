@@ -12,12 +12,16 @@ generator client {
 //////////////////////
 
 model School {
-  id       Int       @id @default(autoincrement())
-  name     String
-  users    User[]
-  students Student[]
-  teachers Teacher[]
-  classes  Class[]
+  id        Int       @id @default(autoincrement())
+  name      String
+
+  users     User[]
+  students  Student[]
+  teachers  Teacher[]
+  classes   Class[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 //////////////////////

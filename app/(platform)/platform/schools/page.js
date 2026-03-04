@@ -1,9 +1,11 @@
 import { prisma } from "../../../../lib/prisma";
 import Link from "next/link";
 
+export const dynamic = "force-dynamic";
+
 export default async function SchoolsPage() {
   const schools = await prisma.school.findMany({
-    orderBy: { createdAt: "desc" },
+    orderBy: { id: "desc" }, // FIXED
     include: {
       subscriptions: {
         orderBy: { startDate: "desc" },
