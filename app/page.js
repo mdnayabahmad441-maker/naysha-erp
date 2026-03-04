@@ -1,65 +1,77 @@
-import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.js file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 text-white">
+
+      {/* Header */}
+      <header className="flex justify-between items-center p-6 max-w-6xl mx-auto">
+        <h1 className="text-2xl font-bold">Naysha ERP</h1>
+
+        <Link
+          href="/login"
+          className="px-5 py-2 rounded-lg bg-white text-black font-semibold"
+        >
+          Login
+        </Link>
+      </header>
+
+      {/* Hero Section */}
+      <section className="text-center mt-20 px-6">
+        <h2 className="text-5xl font-bold mb-6">
+          Smart School Management System
+        </h2>
+
+        <p className="text-xl text-gray-300 max-w-2xl mx-auto mb-10">
+          Manage students, teachers, fees, attendance, and reports in one
+          powerful cloud platform designed for modern schools.
+        </p>
+
+        <Link
+          href="/login"
+          className="px-8 py-4 text-lg rounded-xl bg-gradient-to-r from-cyan-400 to-purple-500 font-semibold"
+        >
+          Get Started
+        </Link>
+      </section>
+
+      {/* Features */}
+      <section className="mt-28 max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-10">
+
+        <div className="bg-white/10 p-8 rounded-xl">
+          <h3 className="text-xl font-semibold mb-3">
+            Student Management
+          </h3>
+          <p className="text-gray-300">
+            Easily manage student records, classes, and academic history.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        <div className="bg-white/10 p-8 rounded-xl">
+          <h3 className="text-xl font-semibold mb-3">
+            Fee Management
+          </h3>
+          <p className="text-gray-300">
+            Track fee payments, generate receipts, and view pending dues.
+          </p>
         </div>
-      </main>
+
+        <div className="bg-white/10 p-8 rounded-xl">
+          <h3 className="text-xl font-semibold mb-3">
+            Attendance Tracking
+          </h3>
+          <p className="text-gray-300">
+            Record daily attendance and monitor student performance.
+          </p>
+        </div>
+
+      </section>
+
+      {/* Footer */}
+      <footer className="text-center mt-24 pb-10 text-gray-400">
+        © {new Date().getFullYear()} Naysha ERP. All rights reserved.
+      </footer>
+
     </div>
   );
 }
