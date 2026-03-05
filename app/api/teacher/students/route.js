@@ -2,16 +2,26 @@ import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET() {
+  try {
 
-  const teacher = await prisma.teacher.findFirst({
-    where: { id: 1 },
-  });
+    const teacher = await prisma.teacher.findFirst({
+      where: { id: 1 } // temporary until login system
+    });
 
-  const students = await prisma.student.findMany({
-    where: {
-      classId: teacher.classId,
-    },
-  });
+    if (!teacher || !teacher.classId) {
+      return NextResponse.json([]);
+    }
 
-  return NextResponse.json(students);
+    const students = await prisma.student.findMany({
+      where: {
+        classId: teacher.classId
+      }
+    });
+
+    return NextResponse.json(students);
+
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json([]);
+  }
 }
