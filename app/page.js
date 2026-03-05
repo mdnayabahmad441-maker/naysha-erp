@@ -25,18 +25,31 @@ export default function Home() {
 
       {/* HEADER */}
 
-      <header className="flex justify-between items-center p-6 max-w-6xl mx-auto">
-        <h1 className="text-2xl font-bold">
-          Naysha ERP
-        </h1>
+     <header className="flex justify-between items-center p-6 max-w-7xl mx-auto">
 
-        <Link
-          href="/login"
-          className="px-5 py-2 rounded-lg bg-white text-black font-semibold"
-        >
-          Login
-        </Link>
-      </header>
+  <h1 className="text-2xl font-bold">
+    Naysha ERP
+  </h1>
+
+  <div className="flex gap-4">
+
+    <Link
+      href="/login"
+      className="px-5 py-2 rounded-lg border border-white hover:bg-white hover:text-black transition"
+    >
+      Sign In
+    </Link>
+
+    <Link
+      href="/register"
+      className="px-5 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-600 transition font-semibold"
+    >
+      Sign Up
+    </Link>
+
+  </div>
+
+</header>
 
       {/* HERO */}
 
