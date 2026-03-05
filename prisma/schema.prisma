@@ -73,10 +73,13 @@ model Student {
   email      String?
   address    String?
 
-  studentType String @default("DayScholar") // NEW FIELD
+  studentType String @default("DayScholar")
 
   classId  Int
   schoolId Int
+
+  parentId Int?                 // NEW
+  parent   Parent? @relation(fields: [parentId], references: [id]) // NEW
 
   class  Class  @relation(fields: [classId], references: [id])
   school School @relation(fields: [schoolId], references: [id])
@@ -181,4 +184,13 @@ model FeeTemplate {
   miscFee Float @default(0)
 
   schoolId Int
+}
+model Parent {
+  id        Int       @id @default(autoincrement())
+  name      String
+  phone     String
+  email     String?   @unique
+  createdAt DateTime  @default(now())
+
+  students  Student[]
 }
