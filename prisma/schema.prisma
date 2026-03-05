@@ -186,11 +186,12 @@ model FeeTemplate {
   schoolId Int
 }
 model Parent {
-  id        Int       @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   name      String
-  phone     String
-  email     String?   @unique
-  createdAt DateTime  @default(now())
+  phone     String   @unique
+  email     String?
+  password  String
+  createdAt DateTime @default(now())
 
   students  Student[]
 }
