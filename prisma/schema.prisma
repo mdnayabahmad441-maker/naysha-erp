@@ -38,14 +38,14 @@ model School {
 //////////////////////
 
 model User {
-  id       Int    @id @default(autoincrement())
-  name     String
-  email    String @unique
-  password String
-  role     String @default("ADMIN")
+  id       Int     @id @default(autoincrement())
+  name     String?
+  email    String  @unique
+  password String?   // optional for Google users
+  role     String   @default("ADMIN")
 
-  schoolId Int
-  school   School @relation(fields: [schoolId], references: [id])
+  schoolId Int?      // optional until school created
+  school   School?   @relation(fields: [schoolId], references: [id])
 }
 
 //////////////////////
