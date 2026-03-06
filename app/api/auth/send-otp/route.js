@@ -2,28 +2,27 @@ import { prisma } from "@/lib/prisma";
 import { transporter } from "@/lib/mail";
 import { NextResponse } from "next/server";
 
-export async function POST(req){
+export async function POST(req) {
 
-const { email } = await req.json();
+  const { email } = await req.json();
 
-const otp = Math.floor(100000 + Math.random()*900000).toString();
+  const code = Math.floor(100000 + Math.random() * 900000).toString();
 
-const expires = new Date(Date.now() + 5*60*1000);
+  const expires = new Date(Date.now() + 5 * 60 * 1000);
 
-await prisma.otp.create({
-data:{
-email,
-code:otp,
-expiresAt:expires
-}
-});
+  await prisma.otp.create({
+    data: {
+      email,
+      code,
+      expiresAt: expires
+    }
+  });
 
-await transporter.sendMail({
-to:email,
-subject:"School ERP OTP Verification",
-text:`Your OTP is ${otp}`
-});
+  await transporter.sendMail({
+    to: email,
+    subject: "Naysha ERP Verification",
+    text: `Your OTP is ${code}`
+  });
 
-return NextResponse.json({success:true});
-
+  return NextResponse.json({ success: true });
 }

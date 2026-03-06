@@ -12,16 +12,25 @@ generator client {
 //////////////////////
 
 model School {
-  id        Int       @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   name      String
+
+  subdomain String   @unique
+  email     String   @unique
+
+  plan      String?  // basic / growth / pro
+  active    Boolean  @default(false)
+
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
 
   users     User[]
   students  Student[]
   teachers  Teacher[]
   classes   Class[]
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 //////////////////////
@@ -201,4 +210,5 @@ model Otp {
   email     String
   code      String
   expiresAt DateTime
+  createdAt DateTime @default(now())
 }
