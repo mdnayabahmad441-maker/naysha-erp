@@ -1,94 +1,74 @@
-"use client";
+import Link from "next/link";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-
-export default function RegisterSchool() {
-  const router = useRouter();
-
-  const [form, setForm] = useState({
-    schoolName: "",
-    adminName: "",
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const register = async (e) => {
-    e.preventDefault();
-
-    const res = await fetch("/api/register-school", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(form),
-    });
-
-    if (res.ok) {
-      alert("School created successfully");
-      router.push("/login");
-    } else {
-      alert("Registration failed");
-    }
-  };
-
+export default function RegisterPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 text-white">
 
-      <form
-        onSubmit={register}
-        className="bg-white/10 p-10 rounded-xl space-y-6 w-[420px]"
-      >
-        <h1 className="text-3xl font-bold text-center">
-          Create Your School
-        </h1>
+      <div className="bg-white/10 backdrop-blur-md p-10 rounded-xl w-[420px]">
 
-        <input
-          name="schoolName"
-          placeholder="School Name"
-          onChange={handleChange}
-          required
-          className="w-full p-3 rounded bg-white/10"
-        />
+        {/* Header */}
 
-        <input
-          name="adminName"
-          placeholder="Admin Name"
-          onChange={handleChange}
-          required
-          className="w-full p-3 rounded bg-white/10"
-        />
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-2xl font-bold">Create School</h1>
 
-        <input
-          name="email"
-          type="email"
-          placeholder="Admin Email"
-          onChange={handleChange}
-          required
-          className="w-full p-3 rounded bg-white/10"
-        />
+          <Link
+            href="/login"
+            className="text-sm text-cyan-300 hover:underline"
+          >
+            Sign In
+          </Link>
+        </div>
 
-        <input
-          name="password"
-          type="password"
-          placeholder="Password"
-          onChange={handleChange}
-          required
-          className="w-full p-3 rounded bg-white/10"
-        />
+        {/* Form */}
 
-        <button className="w-full py-3 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-lg font-semibold">
-          Create School
-        </button>
-      </form>
+        <form className="space-y-4">
 
+          <input
+            type="text"
+            placeholder="School Name"
+            className="w-full p-3 rounded bg-white/10 border border-white/20"
+          />
+
+          <input
+            type="text"
+            placeholder="Admin Name"
+            className="w-full p-3 rounded bg-white/10 border border-white/20"
+          />
+
+          <input
+            type="email"
+            placeholder="Admin Email"
+            className="w-full p-3 rounded bg-white/10 border border-white/20"
+          />
+
+          <input
+            type="password"
+            placeholder="Password"
+            className="w-full p-3 rounded bg-white/10 border border-white/20"
+          />
+
+          <button
+            type="submit"
+            className="w-full py-3 rounded bg-gradient-to-r from-cyan-500 to-purple-600 font-semibold"
+          >
+            Create School
+          </button>
+
+        </form>
+
+        {/* Bottom */}
+
+        <p className="text-center text-sm mt-6 text-gray-300">
+          Already have an account?{" "}
+          <Link
+            href="/login"
+            className="text-cyan-400 hover:underline"
+          >
+            Sign In
+          </Link>
+        </p>
+
+      </div>
     </div>
   );
 }
