@@ -1,25 +1,33 @@
-import { prisma } from "@/lib/prisma";
+import jwt from "jsonwebtoken";
 import { NextResponse } from "next/server";
 
-export async function POST(req) {
+export async function POST(req){
 
-  const { email, code } = await req.json();
+  const { otp, token } = await req.json();
 
-  const record = await prisma.otp.findFirst({
-    where: {
-      email,
-      code
-    },
-    orderBy: { id: "desc" }
-  });
+  try{
 
-  if (!record) {
-    return NextResponse.json({ error: "Invalid OTP" }, { status: 400 });
+    const data = jwt.verify(token, process.env.JWT_SECRET);
+
+    if(data.otp !== otp){
+      return NextResponse.json(
+        { error: "Invalid OTP" },
+        { status: 400 }
+      );
+    }
+
+    return NextResponse.json({
+      success:true,
+      email:data.email
+    });
+
+  }catch(err){
+
+    return NextResponse.json(
+      { error:"OTP expired" },
+      { status:400 }
+    );
+
   }
 
-  if (record.expiresAt < new Date()) {
-    return NextResponse.json({ error: "OTP expired" }, { status: 400 });
-  }
-
-  return NextResponse.json({ success: true });
 }

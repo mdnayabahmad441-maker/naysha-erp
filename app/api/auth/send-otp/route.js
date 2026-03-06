@@ -1,28 +1,25 @@
-import { prisma } from "@/lib/prisma";
+import jwt from "jsonwebtoken";
 import { transporter } from "@/lib/mail";
 import { NextResponse } from "next/server";
 
-export async function POST(req) {
+export async function POST(req){
 
   const { email } = await req.json();
 
-  const code = Math.floor(100000 + Math.random() * 900000).toString();
+  const otp = Math.floor(100000 + Math.random()*900000).toString();
 
-  const expires = new Date(Date.now() + 5 * 60 * 1000);
-
-  await prisma.otp.create({
-    data: {
-      email,
-      code,
-      expiresAt: expires
-    }
-  });
+  const token = jwt.sign(
+    { email, otp },
+    process.env.JWT_SECRET,
+    { expiresIn: "5m" }
+  );
 
   await transporter.sendMail({
     to: email,
     subject: "Naysha ERP Verification",
-    text: `Your OTP is ${code}`
+    text: `Your OTP is ${otp}`
   });
 
-  return NextResponse.json({ success: true });
+  return NextResponse.json({ token });
+
 }
