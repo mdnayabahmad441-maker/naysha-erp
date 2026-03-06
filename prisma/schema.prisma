@@ -195,3 +195,10 @@ model Parent {
 
   students  Student[]
 }
+
+model Otp {
+  id        Int      @id @default(autoincrement())
+  email     String
+  code      String
+  expiresAt DateTime
+}
