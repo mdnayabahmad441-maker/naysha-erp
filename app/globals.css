@@ -2,8 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
-html, body {
-  padding: 0;
+body {
   margin: 0;
-  font-family: system-ui, sans-serif;
+  font-family: Inter, sans-serif;
+  background: linear-gradient(135deg,#0f3b5f,#071f3c,#4f2fb3);
+  color: white;
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 60px;
+}
+
+.hero-title{
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1.1;
+  background: linear-gradient(90deg,#61dafb,#9f7aea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle{
+  margin-top:20px;
+  font-size:18px;
+  opacity:.85;
+}
+
+.btn-primary{
+  padding:12px 24px;
+  border-radius:10px;
+  border:none;
+  background:linear-gradient(90deg,#4cc9f0,#7b61ff);
+  color:white;
+  font-weight:600;
+  cursor:pointer;
+}
+
+.btn-outline{
+  padding:12px 24px;
+  border-radius:10px;
+  border:1px solid #61dafb;
+  background:transparent;
+  color:#61dafb;
+}
+
+.card{
+  background:rgba(255,255,255,0.06);
+  backdrop-filter: blur(10px);
+  border-radius:14px;
+  padding:24px;
 }

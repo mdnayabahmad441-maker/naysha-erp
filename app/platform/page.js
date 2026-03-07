@@ -1,25 +1,55 @@
-import { getServerSession } from "next-auth"
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
-import { prisma } from "@/lib/prisma"
-import { redirect } from "next/navigation"
+export default function PlatformPage(){
 
-export default async function PlatformPage() {
+return (
 
-  const session = await getServerSession(authOptions)
+<div className="container">
 
-  if (!session) {
-    redirect("/login")
-  }
+<h1 className="hero-title">
+Smart Academic
+<br/>
+Command Center
+</h1>
 
-  const user = await prisma.user.findUnique({
-    where: {
-      email: session.user.email
-    }
-  })
+<p className="subtitle">
+A complete school ERP platform for admissions,
+attendance, fees, exams and analytics.
+</p>
 
-  if (!user?.schoolId) {
-    redirect("/create-school")
-  }
+<div style={{marginTop:"30px",display:"flex",gap:"16px"}}>
 
-  redirect("/school/dashboard")
+<a href="/login">
+<button className="btn-primary">
+Access Dashboard
+</button>
+</a>
+
+<button className="btn-outline">
+Request Demo
+</button>
+
+</div>
+
+<div style={{display:"flex",gap:"20px",marginTop:"60px"}}>
+
+<div className="card">
+<p>Total Students</p>
+<h2>1,248</h2>
+</div>
+
+<div className="card">
+<p>Attendance Today</p>
+<h2>96%</h2>
+</div>
+
+<div className="card">
+<p>Fees Collected</p>
+<h2>₹8.2L</h2>
+</div>
+
+</div>
+
+</div>
+
+)
+
 }
