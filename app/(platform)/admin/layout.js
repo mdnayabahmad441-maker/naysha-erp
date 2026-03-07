@@ -1,56 +1,38 @@
 import Link from "next/link";
 
 export default function AdminLayout({ children }) {
+  return (
+    <div className="flex min-h-screen bg-slate-950 text-white">
+      
+      {/* Sidebar */}
+      <aside className="w-64 bg-slate-900 p-6">
+        <h2 className="text-2xl font-bold mb-8 text-blue-500">
+          EduGrowth ERP
+        </h2>
 
-return (
+        <div className="space-y-4">
+          <Link
+            href="/admin/students"
+            className="block p-2 rounded hover:bg-slate-800"
+          >
+            Manage Students
+          </Link>
 
-<div className="flex min-h-screen bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 text-white">
-
-{/* SIDEBAR */}
-
-<div className="w-64 bg-black/40 backdrop-blur-lg p-6">
-
-<h1 className="text-2xl font-bold mb-10">
-EduGrowth ERP
-</h1>
-
-<div className="flex flex-col gap-4">
-
-<Link
-href="/admin/students"
-className="hover:bg-purple-600 p-3 rounded-lg transition">
-Manage Students
-</Link>
-
-<Link
-href="/admin/teacher"
-className="hover:bg-purple-600 p-3 rounded-lg transition">
-Manage Teachers
-</Link>
-
-<Link
-href="/admin/attendance"
-className="hover:bg-purple-600 p-3 rounded-lg transition">
-Attendance
-</Link>
-
-<Link
-href="/admin/fees"
-className="hover:bg-purple-600 p-3 rounded-lg transition">
-Fees
-</Link>
-
-</div>
-
-</div>
-
-{/* MAIN CONTENT */}
-
-<div className="flex-1 p-10">
-{children}
-</div>
-
-</div>
-
-)
+          <Link
+            href="/admin/teachers"
+            className="block p-2 rounded hover:bg-slate-800"
+          >
+            Manage Teachers
+          </Link>
+        </div>
+      </aside>
+<li>
+  <a href="/admin/classes">Manage Classes</a>
+</li>
+      {/* Main Content */}
+      <main className="flex-1 p-10">
+        {children}
+      </main>
+    </div>
+  );
 }
