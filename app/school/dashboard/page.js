@@ -27,7 +27,7 @@ export default function DashboardPage() {
       try {
 
         const studentsRes = await fetch("/api/students");
-        const teachersRes = await fetch("/api/teachers");
+        const teachersRes = await fetch("/api/teacher")
         const classesRes = await fetch("/api/classes");
 
         const students = studentsRes.ok ? await studentsRes.json() : [];

@@ -1,28 +1,16 @@
-"use client"
+import { NextResponse } from "next/server";
+import prisma from "@/lib/prisma";
 
-import { signIn } from "next-auth/react"
+export async function GET() {
+  try {
+    const classes = await prisma.class.findMany();
 
-export default function LoginPage() {
-  return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 text-white">
-      <div className="bg-black/60 backdrop-blur-xl p-10 rounded-2xl w-[420px] text-center shadow-xl">
+    return NextResponse.json(classes);
 
-        <p className="text-purple-300 mb-2 font-semibold">
-          NaySha Automation
-        </p>
+  } catch (error) {
 
-        <h1 className="text-3xl font-bold mb-6">
-          Login
-        </h1>
+    console.error("Classes API Error:", error);
 
-        <button
-          onClick={() => signIn("google", { callbackUrl: "/platform" })}
-          className="w-full bg-white text-black py-3 rounded-lg font-semibold hover:bg-gray-200"
-        >
-          Continue with Google
-        </button>
-
-      </div>
-    </div>
-  )
+    return NextResponse.json([], { status: 200 });
+  }
 }
