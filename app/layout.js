@@ -1,10 +1,14 @@
-import "./globals.css";
+"use client";
+
+import { SessionProvider } from "next-auth/react";
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className="bg-gradient-to-br from-slate-900 via-blue-950 to-purple-900 text-white min-h-screen">
-        {children}
+    <html>
+      <body>
+        <SessionProvider>
+          {children}
+        </SessionProvider>
       </body>
     </html>
   );
