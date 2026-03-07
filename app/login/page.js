@@ -3,6 +3,13 @@
 import { signIn } from "next-auth/react";
 
 export default function LoginPage() {
+
+  const handleGoogleLogin = async () => {
+    await signIn("google", {
+      callbackUrl: "/platform"
+    });
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 text-white">
 
@@ -13,7 +20,7 @@ export default function LoginPage() {
         </h1>
 
         <button
-          onClick={() => signIn("google", { callbackUrl: "/platform" })}
+          onClick={handleGoogleLogin}
           className="w-full bg-white text-black py-3 rounded-lg mb-4 font-semibold hover:bg-gray-200"
         >
           Continue with Google
