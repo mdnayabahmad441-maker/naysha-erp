@@ -1,40 +1,47 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from "next/server"
+import { getToken } from "next-auth/jwt"
 
-export function middleware(request) {
+export async function middleware(request) {
 
-  const userId = request.cookies.get("userId")?.value;
-  const role = request.cookies.get("role")?.value;
+  const token = await getToken({
+    req: request,
+    secret: process.env.NEXTAUTH_SECRET
+  })
 
-  const url = request.nextUrl.pathname;
+  const url = request.nextUrl.pathname
 
   // Not logged in
-  if (!userId && url.startsWith("/school")) {
-    return NextResponse.redirect(new URL("/login", request.url));
+  if (!token && url.startsWith("/school")) {
+    return NextResponse.redirect(new URL("/login", request.url))
   }
+
+  // If role exists in token
+  const role = token?.role
 
   // FEES → only ADMIN + ACCOUNTANT
   if (url.startsWith("/school/fees")) {
     if (role !== "ADMIN" && role !== "ACCOUNTANT") {
-      return NextResponse.redirect(new URL("/unauthorized", request.url));
+      return NextResponse.redirect(new URL("/unauthorized", request.url))
     }
   }
 
-  // ATTENDANCE → only ADMIN + TEACHER
+  // ATTENDANCE → ADMIN + TEACHER
   if (url.startsWith("/school/attendance")) {
     if (role !== "ADMIN" && role !== "TEACHER") {
-      return NextResponse.redirect(new URL("/unauthorized", request.url));
+      return NextResponse.redirect(new URL("/unauthorized", request.url))
     }
   }
 
+  // Parent portal
   if (url.startsWith("/parent")) {
-  if (role !== "PARENT") {
-    return NextResponse.redirect(new URL("/unauthorized", request.url));
+    if (role !== "PARENT") {
+      return NextResponse.redirect(new URL("/unauthorized", request.url))
+    }
   }
-}
 
-  return NextResponse.next();
+  return NextResponse.next()
 }
 
 export const config = {
-  matcher: ["/school/:path*"],
-};
+  matcher: ["/school/:path*", "/parent/:path*"],
+}
