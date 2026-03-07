@@ -38,11 +38,13 @@ model School {
 //////////////////////
 
 model User {
-  id       Int     @id @default(autoincrement())
-  name     String?
-  email    String  @unique
-  password String?
-  role     String  @default("ADMIN")
+  id            String    @id @default(cuid())
+  name          String?
+  email         String?   @unique
+  emailVerified DateTime?
+  image         String?
+
+  role String @default("ADMIN")
 
   schoolId Int?
   school   School? @relation(fields: [schoolId], references: [id])
@@ -211,7 +213,7 @@ model Parent {
 
 model Account {
   id                String @id @default(cuid())
-  userId            Int
+  userId            String
   type              String
   provider          String
   providerAccountId String
@@ -232,7 +234,7 @@ model Account {
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
-  userId       Int
+  userId       String
   expires      DateTime
 
   user User @relation(fields: [userId], references: [id])
