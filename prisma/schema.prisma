@@ -38,21 +38,21 @@ model School {
 //////////////////////
 
 model User {
-  id            String    @id @default(cuid())
+  id            String   @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String   @unique
   emailVerified DateTime?
   image         String?
 
   role String @default("ADMIN")
 
   schoolId Int?
-  school   School? @relation(fields: [schoolId], references: [id])
+  school   School? @relation(fields: [schoolId], references: [id], onDelete: SetNull)
 
   accounts Account[]
   sessions Session[]
 
-  @@index([schoolId])
+  createdAt DateTime @default(now())
 }
 
 //////////////////////
