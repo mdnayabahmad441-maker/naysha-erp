@@ -15,7 +15,7 @@ export default function LoginPage() {
 
         {/* Google Login */}
         <button
-          onClick={() => signIn("google", { callbackUrl: "/platform" })}
+          onClick={() => signIn("google", { callbackUrl: "/school/dashboard" })
           className="w-full bg-white text-black py-3 rounded-lg mb-4 font-semibold hover:bg-gray-200"
         >
           Continue with Google
