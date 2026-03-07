@@ -12,22 +12,22 @@ generator client {
 //////////////////////
 
 model School {
-  id        Int      @id @default(autoincrement())
-  name      String
+  id   Int    @id @default(autoincrement())
+  name String
 
-  subdomain String   @unique
-  email     String   @unique
+  subdomain String @unique
+  email     String @unique
 
-  plan      String?  // basic / growth / pro
-  active    Boolean  @default(false)
+  plan   String? // basic / growth / pro
+  active Boolean @default(false)
 
   stripeCustomerId     String?
   stripeSubscriptionId String?
 
-  users     User[]
-  students  Student[]
-  teachers  Teacher[]
-  classes   Class[]
+  users    User[]
+  students Student[]
+  teachers Teacher[]
+  classes  Class[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -41,11 +41,14 @@ model User {
   id       Int     @id @default(autoincrement())
   name     String?
   email    String  @unique
-  password String?   // optional for Google users
-  role     String   @default("ADMIN")
+  password String?
+  role     String  @default("ADMIN")
 
-  schoolId Int?      // optional until school created
-  school   School?   @relation(fields: [schoolId], references: [id])
+  schoolId Int?
+  school   School? @relation(fields: [schoolId], references: [id])
+
+  accounts Account[]
+  sessions Session[]
 }
 
 //////////////////////
@@ -65,7 +68,7 @@ model Class {
 
   attendances Attendance[]
 
-  feeTemplates FeeTemplate[] 
+  feeTemplates FeeTemplate[]
 
   createdAt DateTime @default(now())
 }
@@ -87,7 +90,7 @@ model Student {
   classId  Int
   schoolId Int
 
-  parentId Int?                 // NEW
+  parentId Int? // NEW
   parent   Parent? @relation(fields: [parentId], references: [id]) // NEW
 
   class  Class  @relation(fields: [classId], references: [id])
@@ -155,7 +158,7 @@ model Fee {
   paidAmount  Float  @default(0)
   status      String @default("Unpaid")
 
-  month String?   // NEW FIELD (safe)
+  month String? // NEW FIELD (safe)
 
   dueDate  DateTime
   schoolId Int
@@ -187,13 +190,14 @@ model FeeTemplate {
 
   studentType String
 
-  schoolFee Float @default(0)
+  schoolFee    Float @default(0)
   transportFee Float @default(0)
-  hostelFee Float @default(0)
-  miscFee Float @default(0)
+  hostelFee    Float @default(0)
+  miscFee      Float @default(0)
 
   schoolId Int
 }
+
 model Parent {
   id        Int      @id @default(autoincrement())
   name      String
@@ -202,13 +206,41 @@ model Parent {
   password  String
   createdAt DateTime @default(now())
 
-  students  Student[]
+  students Student[]
 }
 
-model Otp {
-  id        Int      @id @default(autoincrement())
-  email     String
-  code      String
-  expiresAt DateTime
-  createdAt DateTime @default(now())
+model Account {
+  id                String  @id @default(cuid())
+  userId            Int
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       Int
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
 }
