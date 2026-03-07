@@ -1,8 +1,20 @@
 "use client";
 
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
+
+  const { status } = useSession();
+  const router = useRouter();
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (status === "authenticated") {
+      router.push("/school/dashboard");
+    }
+  }, [status, router]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 text-white">
@@ -15,16 +27,16 @@ export default function LoginPage() {
 
         {/* Google Login */}
         <button
-          onClick={() => signIn("google", { callbackUrl: "/school/dashboard" })
-          className="w-full bg-white text-black py-3 rounded-lg mb-4 font-semibold hover:bg-gray-200"
+          onClick={() => signIn("google", { callbackUrl: "/school/dashboard" })}
+          className="w-full bg-white text-black py-3 rounded-lg mb-4 font-semibold hover:bg-gray-200 transition"
         >
           Continue with Google
         </button>
 
         {/* Email Login */}
         <button
-          onClick={() => signIn("email", { callbackUrl: "/platform" })}
-          className="w-full bg-purple-600 py-3 rounded-lg font-semibold hover:bg-purple-700"
+          onClick={() => signIn("email", { callbackUrl: "/school/dashboard" })}
+          className="w-full bg-purple-600 py-3 rounded-lg font-semibold hover:bg-purple-700 transition"
         >
           Login with Email
         </button>
