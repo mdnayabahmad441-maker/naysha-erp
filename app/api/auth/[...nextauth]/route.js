@@ -8,17 +8,22 @@ const handler = NextAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET
     })
   ],
+
   session: {
     strategy: "jwt"
   },
+
   pages: {
     signIn: "/login"
   },
+
   callbacks: {
     async redirect({ url, baseUrl }) {
+      if (url.startsWith(baseUrl)) return url
       return baseUrl + "/platform"
     }
   },
+
   secret: process.env.NEXTAUTH_SECRET
 })
 
