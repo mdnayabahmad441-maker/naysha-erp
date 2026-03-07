@@ -1,0 +1,61 @@
+[33m6f1eb06[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m fix dashboard api crash
+[33m6a6e1ed[m add logout button
+[33m3695a23[m add school creation flow
+[33m1c3f692[m fix nextauth session provider
+[33m40a6f5f[m fix layout session provider
+[33m30382a3[m add session provider
+[33m74779cf[m fix nextauth redirect
+[33mb99e878[m fix nextauth redirect loop
+[33mb638ea7[m fix tailwind styling
+[33mf6158e2[m fix homepage ui and login
+[33m506fc43[m fix nextauth session redirect
+[33m08c95c0[m fix nextauth and api errors
+[33m6e8a2b9[m fix nextauth redirect
+[33m893d06d[m fix login build error
+[33mc7df7f6[m fix login build error
+[33mbdd0ac2[m fix login syntax error
+[33mffe8ebe[m restore working login page
+[33m0239fcd[m redirect platform to school dashboard
+[33m59ae9ce[m fix login redirect
+[33mc61e5f2[m fix login page syntax
+[33m37f7501[m update login page
+[33m668f63e[m add admin dashboard pages
+[33m8256373[m fix prisma import
+[33mf1e9824[m add admin dashboard pages
+[33m826f549[m update platform dashboard navigation
+[33m40f9f9e[m create platform dashboard
+[33mafb65f5[m fix login build error
+[33m1026997[m fix login redirect
+[33mb21730e[m fix auth schema
+[33m9db40e6[m upgrade schema
+[33mfc44679[m fix nextauth user schema
+[33ma6d290b[m fix oauth callback
+[33mfcaea12[m fix nextauth relations
+[33mbbcab52[m redeploy
+[33md434e4b[m fix nextauth production url
+[33m3aa86a7[m fix build dynamic route
+[33m18584f2[m Google auth working
+[33m1458513[m Fix NextAuth route and auth import
+[33md934de6[m Update login UI with NextAuth popup
+[33me4a9261[m Add magic link authentication system
+[33mbf53ecd[m Add OTP verification flow
+[33mec50602[m Upgrade school model for SaaS
+[33m9038435[m Improve register page UI
+[33m94890d9[m Add email OTP signup system
+[33mac45fea[m Add parent login system
+[33mafdbc75[m Add parent model and student-parent relation
+[33m7bd359c[m Fix teacher students API build crash
+[33m885b1d1[m Fix teacher students API crash
+[33m96fb82a[m Add teacher portal, landing page, signup, pricing
+[33mcbf0216[m Add signup button and improve landing page
+[33m5754637[m fix landing page build + stripe subscription
+[33m7481415[m add SaaS subscription system
+[33mddb0496[m add SaaS subscription system
+[33m47e8b3b[m add ERP landing page
+[33m5f16af2[m add school timestamps
+[33m71f1d6c[m fix attendance edit suspense build error
+[33m5cc76c5[m fix attendance suspense error
+[33md07f70d[m fix vercel prisma build
+[33ma8497fd[m redeploy
+[33mbf35347[m fix teacher edit form
+[33mb3cfe27[m Initial ERP commit

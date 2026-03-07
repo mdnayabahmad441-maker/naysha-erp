@@ -21,34 +21,43 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+
     async function fetchStats() {
+
       try {
 
-        const [studentsRes, teachersRes, classesRes] = await Promise.all([
-          fetch("/api/students"),
-          fetch("/api/teachers"),
-          fetch("/api/classes"),
-        ]);
+        const studentsRes = await fetch("/api/students");
+        const teachersRes = await fetch("/api/teachers");
+        const classesRes = await fetch("/api/classes");
 
-        const students = await studentsRes.json();
-        const teachers = await teachersRes.json();
-        const classes = await classesRes.json();
+        const students = studentsRes.ok ? await studentsRes.json() : [];
+        const teachers = teachersRes.ok ? await teachersRes.json() : [];
+        const classes = classesRes.ok ? await classesRes.json() : [];
 
         setStats({
-          students: students?.length || 0,
-          teachers: teachers?.length || 0,
-          classes: classes?.length || 0,
+          students: Array.isArray(students) ? students.length : 0,
+          teachers: Array.isArray(teachers) ? teachers.length : 0,
+          classes: Array.isArray(classes) ? classes.length : 0,
         });
 
       } catch (error) {
-        console.error("Dashboard API error:", error);
+        console.error("Dashboard error:", error);
       }
 
       setLoading(false);
     }
 
     fetchStats();
+
   }, []);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center text-white bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900">
+        Loading Dashboard...
+      </div>
+    );
+  }
 
   const data = [
     { name: "Students", value: stats.students },
@@ -56,21 +65,15 @@ export default function DashboardPage() {
     { name: "Classes", value: stats.classes },
   ];
 
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-white">
-        Loading dashboard...
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen p-10 text-white">
+    <div className="min-h-screen p-10 text-white bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900">
+
       <h1 className="text-3xl font-bold mb-8">
         School Dashboard
       </h1>
 
       <div className="bg-white/10 backdrop-blur p-6 rounded-xl">
+
         <ResponsiveContainer width="100%" height={350}>
           <BarChart data={data}>
             <XAxis dataKey="name" stroke="#ffffff" />
@@ -79,7 +82,9 @@ export default function DashboardPage() {
             <Bar dataKey="value" fill="#8b5cf6" />
           </BarChart>
         </ResponsiveContainer>
+
       </div>
+
     </div>
   );
 }

@@ -1,42 +1,22 @@
-import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import { getCurrentUser } from "@/lib/auth";
+import prisma from "@/lib/prisma";
 
 export async function GET() {
-  const user = await getCurrentUser();
 
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  try {
+
+    const classes = await prisma.class.findMany();
+
+    return NextResponse.json(classes);
+
+  } catch (error) {
+
+    console.error("Classes API Error:", error);
+
+    return NextResponse.json(
+      { error: "Failed to fetch classes" },
+      { status: 500 }
+    );
   }
 
-  const classes = await prisma.class.findMany({
-    where: {
-      schoolId: user.schoolId,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
-  return NextResponse.json(classes);
-}
-
-export async function POST(req) {
-  const user = await getCurrentUser();
-
-  if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
-
-  const { name, section } = await req.json();
-
-  const newClass = await prisma.class.create({
-    data: {
-      name,
-      section,
-      schoolId: user.schoolId,
-    },
-  });
-
-  return NextResponse.json(newClass);
 }
