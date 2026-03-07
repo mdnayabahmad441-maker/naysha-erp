@@ -18,7 +18,7 @@ model School {
   subdomain String @unique
   email     String @unique
 
-  plan   String? // basic / growth / pro
+  plan   String?
   active Boolean @default(false)
 
   stripeCustomerId     String?
@@ -34,7 +34,7 @@ model School {
 }
 
 //////////////////////
-// USER
+// USER (NextAuth)
 //////////////////////
 
 model User {
@@ -51,6 +51,8 @@ model User {
 
   accounts Account[]
   sessions Session[]
+
+  @@index([schoolId])
 }
 
 //////////////////////
@@ -68,11 +70,12 @@ model Class {
   students Student[]
   teacher  Teacher?
 
-  attendances Attendance[]
-
+  attendances  Attendance[]
   feeTemplates FeeTemplate[]
 
   createdAt DateTime @default(now())
+
+  @@index([schoolId])
 }
 
 //////////////////////
@@ -92,14 +95,17 @@ model Student {
   classId  Int
   schoolId Int
 
-  parentId Int? // NEW
-  parent   Parent? @relation(fields: [parentId], references: [id]) // NEW
+  parentId Int?
+  parent   Parent? @relation(fields: [parentId], references: [id])
 
   class  Class  @relation(fields: [classId], references: [id])
   school School @relation(fields: [schoolId], references: [id])
 
   attendance Attendance[]
   fees       Fee[]
+
+  @@index([schoolId])
+  @@index([classId])
 }
 
 //////////////////////
@@ -119,6 +125,8 @@ model Teacher {
   class   Class? @relation(fields: [classId], references: [id])
 
   createdAt DateTime @default(now())
+
+  @@index([schoolId])
 }
 
 //////////////////////
@@ -131,12 +139,16 @@ model Attendance {
   studentId Int
   student   Student @relation(fields: [studentId], references: [id])
 
+  classId Int?
+  class   Class? @relation(fields: [classId], references: [id])
+
+  schoolId Int
+
   date   DateTime
   status String
 
-  schoolId Int
-  class    Class? @relation(fields: [classId], references: [id])
-  classId  Int?
+  @@index([studentId])
+  @@index([schoolId])
 }
 
 //////////////////////
@@ -157,10 +169,11 @@ model Fee {
   otherCharges Float @default(0)
 
   totalAmount Float
-  paidAmount  Float  @default(0)
-  status      String @default("Unpaid")
+  paidAmount  Float @default(0)
 
-  month String? // NEW FIELD (safe)
+  status String @default("Unpaid")
+
+  month String?
 
   dueDate  DateTime
   schoolId Int
@@ -168,6 +181,9 @@ model Fee {
   createdAt DateTime @default(now())
 
   payments Payment[]
+
+  @@index([studentId])
+  @@index([schoolId])
 }
 
 //////////////////////
@@ -177,12 +193,18 @@ model Fee {
 model Payment {
   id        Int      @id @default(autoincrement())
   feeId     Int
-  amount    Int
+  amount    Float
   schoolId  Int
   createdAt DateTime @default(now())
 
   fee Fee @relation(fields: [feeId], references: [id])
+
+  @@index([feeId])
 }
+
+//////////////////////
+// FEE TEMPLATE
+//////////////////////
 
 model FeeTemplate {
   id Int @id @default(autoincrement())
@@ -198,18 +220,28 @@ model FeeTemplate {
   miscFee      Float @default(0)
 
   schoolId Int
+
+  @@index([classId])
 }
+
+//////////////////////
+// PARENT
+//////////////////////
 
 model Parent {
   id        Int      @id @default(autoincrement())
   name      String
   phone     String   @unique
   email     String?
-  password  String
+  password  String?
   createdAt DateTime @default(now())
 
   students Student[]
 }
+
+//////////////////////
+// NEXTAUTH TABLES
+//////////////////////
 
 model Account {
   id                String @id @default(cuid())
