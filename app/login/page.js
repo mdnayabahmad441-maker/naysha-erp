@@ -1,20 +1,8 @@
 "use client";
 
-import { signIn, useSession } from "next-auth/react";
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 export default function LoginPage() {
-
-  const { data: session } = useSession();
-  const router = useRouter();
-
-  // If already logged in → go to dashboard
-  useEffect(() => {
-    if (session) {
-      router.push("/platform");
-    }
-  }, [session, router]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 text-white">
